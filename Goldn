@@ -1,0 +1,22 @@
+const TelegramBot = require('node-telegram-bot-api');
+
+// توکنی بوتەکەت لێرە دانەوە
+const token = '8174442396:AAGgSA703Fud4LSlDHzpDtXxLH41Smwznc0';
+
+// دروستکردنی بوت بە polling
+const bot = new TelegramBot(token, { polling: true });
+
+// فرمان /start بۆ وەلامدان
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "سڵاو! من بوتەکەتە و دەتوانم پەیامەکانت وەلام بدەم.");
+});
+
+// هەر پەیامێک کە بە شێوەی نووسین بێ فرمانی تێدایە وەلامبدە
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
+  // ئەگەر فرمان نەبوو، وەلام بدە
+  if (!msg.text.startsWith('/')) {
+    bot.sendMessage(chatId, `تۆ وتویت: ${msg.text}`);
+  }
+});
